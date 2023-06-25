@@ -1,23 +1,24 @@
 package ru.practicum.shareit.user.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import org.springframework.lang.NonNull;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 public class UserDto {
 
-    @NonNull
     private Long id;
 
     @NotBlank(message = "name should not be empty")
     private String name;
 
-    @NotEmpty(message = "email should not be empty")
+    @NotBlank(message = "email should not be empty and contain space")
     @Email(message = "incorrect email")
     private String email;
 }

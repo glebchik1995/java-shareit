@@ -1,17 +1,17 @@
 package ru.practicum.shareit.request.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 import org.springframework.lang.NonNull;
 import ru.practicum.shareit.user.model.User;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-/**
- * TODO Sprint add-item-requests.
- */
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@ToString
+@EqualsAndHashCode
 public class ItemRequestDto {
 
     @NonNull

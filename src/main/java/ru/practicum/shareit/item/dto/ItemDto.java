@@ -1,33 +1,29 @@
 package ru.practicum.shareit.item.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import org.springframework.lang.NonNull;
-import ru.practicum.shareit.request.model.ItemRequest;
-import ru.practicum.shareit.user.model.User;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-/**
- * TODO Sprint add-controllers.
- */
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 public class ItemDto {
 
-    @NonNull
     private Long id;
 
-    @Size(max = 50)
+    @Size(max = 50, message = "max size = 50")
+    @NotBlank(message = "name should not be empty")
     private String name;
 
-    @Size(max = 200)
+    @Size(max = 200, message = "max size = 200")
+    @NotBlank(message = "description should not be empty")
     private String description;
 
     private Boolean available;
 
-    @NonNull
-    private User owner;
-
-    private ItemRequest itemRequest;
 }

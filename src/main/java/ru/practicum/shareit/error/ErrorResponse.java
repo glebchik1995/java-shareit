@@ -1,8 +1,5 @@
 package ru.practicum.shareit.error;
 
-import lombok.Data;
-
-@Data
 public class ErrorResponse {
 
     String error;
