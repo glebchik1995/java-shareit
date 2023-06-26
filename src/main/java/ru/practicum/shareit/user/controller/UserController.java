@@ -32,13 +32,13 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto createUser(@RequestBody @Validated(Marker.OnCreate.class) UserDto userDto) {
+    public UserDto createUser(@Validated(Marker.OnCreate.class) @RequestBody UserDto userDto) {
         log.info("Получен POST-запрос: /users на создание пользователя: {}", userDto);
         return service.create(userDto);
     }
 
     @PatchMapping(value = "/{id}")
-    public UserDto updateUser(@PathVariable Long id, @RequestBody @Validated(Marker.OnUpdate.class) UserDto userDto) {
+    public UserDto updateUser(@PathVariable Long id, @Validated(Marker.OnUpdate.class) @RequestBody UserDto userDto) {
         log.info("Получен PATCH-запрос: /users/{id} на обновление пользователя с ID = {}", id);
         return service.update(id, userDto);
     }
