@@ -53,7 +53,7 @@ public class UserStorageImpl implements UserStorage {
         Set<String> emails = users.values().stream().map(User::getEmail).collect(Collectors.toSet());
 
         if (emails.contains(user.getEmail()) && (!user.getEmail().equals(updateUser.getEmail()))) {
-            throw new DataAlreadyExistException(("Email занят другим пользователем"));
+            throw new DataAlreadyExistException("Email занят другим пользователем");
         }
         if (user.getEmail() != null && !updateUser.getEmail().isBlank()) {
             updateUser.setEmail(user.getEmail());

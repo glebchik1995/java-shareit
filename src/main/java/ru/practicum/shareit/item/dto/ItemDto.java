@@ -1,27 +1,22 @@
 package ru.practicum.shareit.item.dto;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+import ru.practicum.shareit.marker.Marker;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
+@Data
 public class ItemDto {
 
     private Long id;
 
-    @Size(max = 50, message = "max size = 50")
-    @NotBlank(message = "name should not be empty")
+    @NotBlank(message = "name should not be empty", groups = {Marker.OnCreate.class})
+    @Size(max = 50, message = "max size = 50", groups = {Marker.OnCreate.class})
     private String name;
 
-    @Size(max = 200, message = "max size = 200")
-    @NotBlank(message = "description should not be empty")
+    @NotBlank(message = "description should not be empty", groups = {Marker.OnCreate.class})
+    @Size(min = 1, max = 200, message = "min size = 1; max size = 200", groups = {Marker.OnCreate.class})
     private String description;
 
     private Boolean available;

@@ -1,17 +1,13 @@
 package ru.practicum.shareit.request.dto;
 
-import lombok.*;
+import lombok.Data;
 import org.springframework.lang.NonNull;
 import ru.practicum.shareit.user.model.User;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@ToString
-@EqualsAndHashCode
+@Data
 public class ItemRequestDto {
 
     @NonNull

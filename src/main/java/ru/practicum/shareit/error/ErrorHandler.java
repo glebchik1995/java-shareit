@@ -31,7 +31,7 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleIllegalArgumentException(final HttpServerErrorException e) {
         log.info("Ошибка 500 {}", e.getMessage());
-        return new ErrorResponse(e.getMessage(), "Unknown error!");
+        return new ErrorResponse(e.getMessage(), "Server error!");
     }
 
     @ExceptionHandler

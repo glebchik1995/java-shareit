@@ -1,14 +1,10 @@
 package ru.practicum.shareit.user.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
+@Data
+@NoArgsConstructor
 public class User {
 
     private Long id;

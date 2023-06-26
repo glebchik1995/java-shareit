@@ -1,15 +1,11 @@
 package ru.practicum.shareit.request.model;
 
-import lombok.*;
+import lombok.Data;
 import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@ToString
-@EqualsAndHashCode
+@Data
 public class ItemRequest {
 
     private Long id;

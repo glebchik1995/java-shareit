@@ -2,11 +2,12 @@ package ru.practicum.shareit.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.marker.Marker;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.service.UserService;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -31,19 +32,19 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto createUser(@Valid @RequestBody UserDto userDto){
+    public UserDto createUser(@RequestBody @Validated(Marker.OnCreate.class) UserDto userDto) {
         log.info("Получен POST-запрос: /users на создание пользователя: {}", userDto);
         return service.create(userDto);
     }
 
     @PatchMapping(value = "/{id}")
-    public UserDto updateUser(@PathVariable Long id, @RequestBody UserDto userDto){
+    public UserDto updateUser(@PathVariable Long id, @RequestBody @Validated(Marker.OnUpdate.class) UserDto userDto) {
         log.info("Получен PATCH-запрос: /users/{id} на обновление пользователя с ID = {}", id);
         return service.update(id, userDto);
     }
 
     @DeleteMapping(value = "/{id}")
-    public void deleteUserById(@PathVariable Long id){
+    public void deleteUserById(@PathVariable Long id) {
         log.info("Получен DELETE-запрос: /users/{id} на удаление пользователя с ID = {}", id);
         service.delete(id);
     }

@@ -7,7 +7,6 @@ import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.storage.ItemStorageImpl;
 import ru.practicum.shareit.mapper.ModelMapperUtil;
-import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.storage.UserStorageImpl;
 
 import java.util.Collections;
@@ -28,8 +27,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemDto create(ItemDto itemDto, Long userId) {
         Item item = mapper.map(itemDto, Item.class);
-        User user = userStorage.findById(userId);
-        item.setOwner(user);
+        item.setOwner(userStorage.findById(userId));
         return mapper.map(itemStorage.create(item), ItemDto.class);
     }
 
