@@ -21,31 +21,31 @@ public class UserController {
     @GetMapping
     public List<UserDto> findAllUsers() {
         log.info("Получен GET-запрос: /users на получение всех пользователей");
-        return service.findAll();
+        return service.findAllUsers();
 
     }
 
     @GetMapping(value = "/{id}")
     public UserDto findUserById(@PathVariable Long id) {
         log.info("Получен GET-запрос: /users/{id} на получение пользователя с ID = {}", id);
-        return service.findById(id);
+        return service.findUserById(id);
     }
 
     @PostMapping
     public UserDto createUser(@Validated(Marker.OnCreate.class) @RequestBody UserDto userDto) {
         log.info("Получен POST-запрос: /users на создание пользователя: {}", userDto);
-        return service.create(userDto);
+        return service.createUser(userDto);
     }
 
     @PatchMapping(value = "/{id}")
-    public UserDto updateUser(@PathVariable Long id, @Validated(Marker.OnUpdate.class) @RequestBody UserDto userDto) {
+    public UserDto updateUserById(@PathVariable Long id, @Validated(Marker.OnUpdate.class) @RequestBody UserDto userDto) {
         log.info("Получен PATCH-запрос: /users/{id} на обновление пользователя с ID = {}", id);
-        return service.update(id, userDto);
+        return service.updateUserById(id, userDto);
     }
 
     @DeleteMapping(value = "/{id}")
     public void deleteUserById(@PathVariable Long id) {
         log.info("Получен DELETE-запрос: /users/{id} на удаление пользователя с ID = {}", id);
-        service.delete(id);
+        service.deleteUserById(id);
     }
 }
