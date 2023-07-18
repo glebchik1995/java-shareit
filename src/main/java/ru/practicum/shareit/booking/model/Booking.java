@@ -1,15 +1,22 @@
 package ru.practicum.shareit.booking.model;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
+
 import java.time.LocalDateTime;
 
-@Data
 @Entity
-@Table(name = "bookings")
+@Table(name = "bookings", schema = "public")
+@Getter
+@Setter
+@ToString(exclude = {"item", "booker"})
+@EqualsAndHashCode(exclude = {"start", "end", "item", "booker", "status"})
 public class Booking {
 
     @Id
@@ -31,6 +38,7 @@ public class Booking {
     private User booker;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "state")
+    @Column(name = "status")
     private Status status;
+
 }

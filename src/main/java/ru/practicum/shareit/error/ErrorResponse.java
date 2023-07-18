@@ -1,14 +1,17 @@
 package ru.practicum.shareit.error;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@Data
-@AllArgsConstructor
+@Getter
+@RequiredArgsConstructor
 public class ErrorResponse {
-
     private String error;
+    private String message;
 
-    private String description;
-
+    public ErrorResponse(String error, String message) {
+        this.error = error;
+        this.message = message;
+    }
 }
+

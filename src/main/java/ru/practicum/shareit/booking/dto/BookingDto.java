@@ -11,6 +11,8 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+import static ru.practicum.shareit.util.Constant.TIME_PATTERN;
+
 @Data
 @NoArgsConstructor
 public class BookingDto {
@@ -20,19 +22,19 @@ public class BookingDto {
     @NotNull
     private Long itemId;
 
+    private User booker;
+
+    private Item item;
+
     @Future(message = "Время начала не может быть в прошлом")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = TIME_PATTERN)
     @NotNull
     private LocalDateTime start;
 
     @Future(message = "Время окончания не может быть в прошлом")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = TIME_PATTERN)
     @NotNull
     private LocalDateTime end;
 
     private Status status;
-
-    private Item item;
-
-    private User booker;
 }

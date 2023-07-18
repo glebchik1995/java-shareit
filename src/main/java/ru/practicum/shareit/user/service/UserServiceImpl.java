@@ -1,16 +1,16 @@
 package ru.practicum.shareit.user.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.shareit.exception.DataAlreadyExistException;
-import ru.practicum.shareit.exception.DataNotFoundException;
+import ru.practicum.shareit.exceptions.DataAlreadyExistException;
+import ru.practicum.shareit.exceptions.DataNotFoundException;
 import ru.practicum.shareit.mapper.ModelMapperUtil;
-import ru.practicum.shareit.user.dao.UserRepository;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.user.repository.UserRepository;
 
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,25 +20,17 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
     private final ModelMapperUtil mapper;
 
     @Override
-    public UserDto createUser(UserDto userDto) {
+    public UserDto addUser(UserDto userDto) {
         try {
             User user = mapper.map(userDto, User.class);
             return mapper.map(userRepository.save(user), UserDto.class);
-        } catch (ConstraintViolationException exception) {
-            throw new DataAlreadyExistException((String.format("Пользователь с ID= %s уже зарегистрирован!",
-                    userDto.getEmail())));
+        } catch (DataIntegrityViolationException exception) {
+            throw new DataAlreadyExistException(String.format("Пользователь с email = %s уже существует",
+                    userDto.getEmail()));
         }
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public UserDto findUserById(Long id) {
-        return mapper.map(userRepository.findById(id).orElseThrow(() -> new DataNotFoundException(
-                String.format("Пользователь с ID = %d не найден", id))), UserDto.class);
     }
 
     @Override
@@ -51,23 +43,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public UserDto findUserById(Long id) {
+        return mapper.map(userRepository.findById(id).orElseThrow(() ->
+                new DataNotFoundException(String.format("Пользователь с id = %d  +  не найден!", id))), UserDto.class);
+    }
+
+    @Override
     public UserDto updateUserById(Long id, UserDto userDto) {
         if (userDto.getId() == null) {
             userDto.setId(id);
         }
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new DataNotFoundException(String.format("Пользователь с ID= %d не найден!", id)));
+                .orElseThrow(() -> new DataNotFoundException(String.format("Пользователь с id = %s не найден", id)));
         if (userDto.getName() != null) {
             user.setName(userDto.getName());
         }
         if ((userDto.getEmail() != null) && (!userDto.getEmail().equals(user.getEmail()))) {
-            if (userRepository.findByEmail(userDto.getEmail())
+            if (userRepository.findUserByEmail(userDto.getEmail())
                     .stream()
                     .filter(u -> u.getEmail().equals(userDto.getEmail()))
                     .allMatch(u -> u.getId().equals(userDto.getId()))) {
                 user.setEmail(userDto.getEmail());
             } else {
-                throw new DataAlreadyExistException((String.format("Пользователь с ID= %s уже зарегистрирован!", user.getEmail())));
+                throw new DataAlreadyExistException(String.format("Пользователь с email = %s уже существует",
+                        userDto.getEmail()));
             }
 
         }
@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUserById(Long id) {
         if (findUserById(id) == null) {
-            throw new DataNotFoundException(String.format("Пользователь с ID = %s не найден", id));
+            throw new DataNotFoundException(String.format("Пользователь с id = %s не найден", id));
         }
         userRepository.deleteById(id);
     }
