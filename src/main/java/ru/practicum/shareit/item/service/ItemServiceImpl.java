@@ -154,12 +154,15 @@ public class ItemServiceImpl implements ItemService {
                 orElseThrow(() -> new DataNotFoundException(String.format("Вещь с ID = %d не найден", itemId)));
         item.getComments().add(commentDto);
         comment.setItem(item);
-        comment.setAuthor(userRepository.findById(userId)
-                .orElseThrow(() -> new DataNotFoundException(String.format("Пользователь с ID = %d не найден", userId))));
+        comment.setAuthor(userRepository.findById(userId).orElseThrow(() ->
+                new DataNotFoundException(String.format("Пользователь с ID = %d не найден", userId))));
 
         LocalDateTime now = LocalDateTime.now();
 
-        List<Booking> bookings = bookingsRepository.findBookingsByBooker_IdAndItem_IdAndStatusEqualsAndStartBeforeAndEndBefore(userId, itemId, Status.APPROVED, now, now);
+        List<Booking> bookings = bookingsRepository
+                .findBookingsByBooker_IdAndItem_IdAndStatusEqualsAndStartBeforeAndEndBefore(
+                        userId, itemId, Status.APPROVED, now, now
+                );
 
         if (bookings.isEmpty()) {
             throw new ValidationException("Данная вещь не была арендована.");
