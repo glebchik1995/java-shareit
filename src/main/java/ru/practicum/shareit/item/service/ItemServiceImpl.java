@@ -150,8 +150,8 @@ public class ItemServiceImpl implements ItemService {
     public CommentDto addComment(Long userId, Long itemId, CommentDto commentDto) {
         Comment comment = mapper.map(commentDto, Comment.class);
         comment.setCreated(LocalDateTime.now());
-        Item item = itemRepository.findById(itemId).
-                orElseThrow(() -> new DataNotFoundException(String.format("Вещь с ID = %d не найден", itemId)));
+        Item item = itemRepository.findById(itemId)
+                        .orElseThrow(() -> new DataNotFoundException(String.format("Вещь с ID = %d не найден", itemId)));
         item.getComments().add(commentDto);
         comment.setItem(item);
         comment.setAuthor(userRepository.findById(userId).orElseThrow(() ->
