@@ -3,6 +3,7 @@ package ru.practicum.shareit.mapper;
 import lombok.experimental.UtilityClass;
 import ru.practicum.shareit.booking.dto.ResponseBookingDto;
 import ru.practicum.shareit.booking.model.Booking;
+
 @UtilityClass
 public class BookingMapper {
 
