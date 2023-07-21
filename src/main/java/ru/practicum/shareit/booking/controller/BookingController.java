@@ -2,15 +2,18 @@ package ru.practicum.shareit.booking.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.model.State;
 import ru.practicum.shareit.booking.service.BookingService;
+import ru.practicum.shareit.validation.CreateObject;
 
 import javax.validation.Valid;
 import java.util.List;
 
 import static ru.practicum.shareit.util.Constant.USER_ID_HEADER;
+
 
 @RestController
 @RequestMapping(path = "/bookings")
@@ -21,7 +24,7 @@ public class BookingController {
 
     @PostMapping
     public BookingDto addBooking(@RequestHeader(USER_ID_HEADER) Long userId,
-                                 @Valid @RequestBody BookingDto bookingDto) {
+                                 @Valid @Validated(CreateObject.class) @RequestBody BookingDto bookingDto) {
         log.info("Получен POST-запрос: /bookings на бронирование {}", bookingDto);
         return bookingService.addBooking(userId, bookingDto);
     }

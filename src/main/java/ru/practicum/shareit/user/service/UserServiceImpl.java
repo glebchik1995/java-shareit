@@ -1,7 +1,6 @@
 package ru.practicum.shareit.user.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exceptions.DataAlreadyExistException;
@@ -24,13 +23,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto addUser(UserDto userDto) {
-        try {
-            User user = mapper.map(userDto, User.class);
-            return mapper.map(userRepository.save(user), UserDto.class);
-        } catch (DataIntegrityViolationException exception) {
-            throw new DataAlreadyExistException(String.format("Пользователь с email = %s уже существует",
-                    userDto.getEmail()));
-        }
+        User user = mapper.map(userDto, User.class);
+        return mapper.map(userRepository.save(user), UserDto.class);
+
     }
 
     @Override
@@ -76,9 +71,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUserById(Long id) {
-        if (findUserById(id) == null) {
-            throw new DataNotFoundException(String.format("Пользователь с id = %s не найден", id));
-        }
+        userRepository.findById(id).orElseThrow(
+                () -> new DataNotFoundException(String.format("Пользователь с id = %s не найден", id)));
         userRepository.deleteById(id);
+
     }
 }

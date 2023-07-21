@@ -54,21 +54,21 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleBookingAlreadyStatusChanged(final BookingStatusAlreadyChangedException e) {
         log.debug("ResponseStatus: BAD_REQUEST. Status code: 400. {}", e.getMessage());
-        return new ErrorResponse(e.getMessage(),"Object is already changed");
+        return new ErrorResponse(e.getMessage(), "Object is already changed");
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handeDateTimeException(final NotValidDateException e) {
         log.debug("ResponseStatus: BAD_REQUEST. Status code: 400. {}", e.getMessage());
-        return new ErrorResponse(e.getMessage(),"Date Error!");
+        return new ErrorResponse(e.getMessage(), "Date Error!");
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handeItemAlreadyBookedException(final ItemAlreadyBookedException e) {
         log.debug("ResponseStatus: BAD_REQUEST. Status code: 400. {}", e.getMessage());
-        return new ErrorResponse(e.getMessage(),"Date Error!");
+        return new ErrorResponse(e.getMessage(), "Date Error!");
     }
 
     @ExceptionHandler

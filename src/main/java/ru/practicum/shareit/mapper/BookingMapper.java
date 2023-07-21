@@ -1,11 +1,11 @@
 package ru.practicum.shareit.mapper;
 
-import org.springframework.stereotype.Repository;
+import lombok.experimental.UtilityClass;
 import ru.practicum.shareit.booking.dto.ResponseBookingDto;
 import ru.practicum.shareit.booking.model.Booking;
-
-@Repository
+@UtilityClass
 public class BookingMapper {
+
     public ResponseBookingDto toResponseBookingDto(Booking booking) {
         if (booking == null) {
             return null;

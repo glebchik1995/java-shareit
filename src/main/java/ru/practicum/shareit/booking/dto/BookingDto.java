@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import ru.practicum.shareit.booking.model.Status;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.validation.CreateObject;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
@@ -19,7 +20,7 @@ public class BookingDto {
 
     private Long id;
 
-    @NotNull
+    @NotNull(groups = {CreateObject.class})
     private Long itemId;
 
     private User booker;
