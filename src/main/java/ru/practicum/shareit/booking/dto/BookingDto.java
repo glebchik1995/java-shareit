@@ -4,8 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.practicum.shareit.booking.model.Status;
-import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.validation.CreateObject;
 
 import javax.validation.constraints.Future;
@@ -23,9 +23,9 @@ public class BookingDto {
     @NotNull(groups = {CreateObject.class})
     private Long itemId;
 
-    private User booker;
+    private UserDto booker;
 
-    private Item item;
+    private ItemDto item;
 
     @Future(message = "Время начала не может быть в прошлом")
     @DateTimeFormat(pattern = TIME_PATTERN)

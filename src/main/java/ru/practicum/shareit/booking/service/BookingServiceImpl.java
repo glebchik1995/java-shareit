@@ -76,7 +76,7 @@ public class BookingServiceImpl implements BookingService {
     @Transactional(readOnly = true)
     public List<BookingDto> getByOwner(Long userId, State state) {
         User owner = userRepository.findById(userId)
-                .orElseThrow(() -> new DataNotFoundException(String.format("Пользователь с id = %d не найден ", userId)));
+                .orElseThrow(() -> new DataNotFoundException(String.format("Пользователь с ID = %d не найден ", userId)));
         LocalDateTime now = LocalDateTime.now();
         List<Booking> bookings;
         switch (state) {
@@ -111,7 +111,7 @@ public class BookingServiceImpl implements BookingService {
     @Transactional(readOnly = true)
     public List<BookingDto> findUserBookings(Long userId, State state) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new DataNotFoundException(String.format("Пользователь с id = %d не найден ", userId)));
+                .orElseThrow(() -> new DataNotFoundException(String.format("Пользователь с ID = %d не найден ", userId)));
         LocalDateTime now = LocalDateTime.now();
         List<Booking> bookings;
         switch (state) {

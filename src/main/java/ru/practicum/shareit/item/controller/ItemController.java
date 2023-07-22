@@ -57,8 +57,8 @@ public class ItemController {
     }
 
     @GetMapping("/search")
-    public List<ItemDto> search(@RequestHeader(USER_ID_HEADER) long userId,
-                                @RequestParam String text) {
+    public List<ItemDtoWithBookings> search(@RequestHeader(USER_ID_HEADER) long userId,
+                                            @RequestParam String text) {
         log.info("Получен GET-запрос:/items/search на товар в названии или описании которого есть: {}", text);
         if (text.isEmpty()) {
             return Collections.emptyList();

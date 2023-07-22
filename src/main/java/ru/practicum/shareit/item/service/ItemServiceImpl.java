@@ -70,7 +70,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ItemDto> searchByText(Long userId, String text) {
+    public List<ItemDtoWithBookings> searchByText(Long userId, String text) {
         userRepository.findById(userId).orElseThrow(
                 () -> new DataNotFoundException("Пользователь не найден")
         );
@@ -80,11 +80,12 @@ public class ItemServiceImpl implements ItemService {
         }
         itemRepository.findItemByText(text);
 
-        return itemRepository.findItemByText(text)
+        List<ItemDtoWithBookings> items = itemRepository.findItemByText(text)
                 .stream()
-                .map(item -> mapper.map(item, ItemDto.class))
+                .map(item -> mapper.map(item, ItemDtoWithBookings.class))
                 .collect(Collectors.toList());
 
+        return findAllItemsWithBookings(items);
     }
 
     @Override
@@ -159,8 +160,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     private List<ItemDtoWithBookings> findAllItemsWithBookings(List<ItemDtoWithBookings> list) {
-        List<Booking> bookings = new ArrayList<>(bookingsRepository
-                .findAll());
+        List<Booking> bookings = new ArrayList<>(bookingsRepository.findAll());
         for (ItemDtoWithBookings item : list) {
             ResponseBookingDto lastBooking = bookings
                     .stream()
