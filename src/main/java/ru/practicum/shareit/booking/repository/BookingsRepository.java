@@ -2,8 +2,11 @@ package ru.practicum.shareit.booking.repository;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.Status;
+import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
@@ -21,10 +24,6 @@ public interface BookingsRepository extends JpaRepository<Booking, Long> {
 
     List<Booking> findAllByItem_OwnerEqualsAndStatusEqualsOrderByStartDesc(User owner, Status status, Sort sortByStartDateDesc);
 
-    List<Booking> findBookingByItemIdAndStartBeforeOrderByEndDesc(Long itemId, LocalDateTime time);
-
-    List<Booking> findBookingByItem_IdAndStartAfterAndStatusEqualsOrderByStart(Long itemId, LocalDateTime time, Status status);
-
     List<Booking> findBookingsByBooker_IdAndItem_IdAndStatusEqualsAndStartBeforeAndEndBefore(Long userId, Long itemId, Status status, LocalDateTime start, LocalDateTime end);
 
     List<Booking> findAllByBookerOrderByStartDesc(User user, Sort sortByStartDateDesc);
@@ -36,4 +35,16 @@ public interface BookingsRepository extends JpaRepository<Booking, Long> {
     List<Booking> findAllByBookerAndStartIsBeforeAndEndIsAfterOrderByStartDesc(User user, LocalDateTime start, LocalDateTime end, Sort sortByStartDateDesc);
 
     List<Booking> findAllByBookerAndStatusEqualsOrderByStartDesc(User user, Status status, Sort sortByStartDateDesc);
+
+    @Query("select b " +
+            "from Booking b " +
+            "join fetch b.item i " +
+            "where i = :items " +
+            "   and i.owner.id = :ownerId" +
+            "   and b.status = :status " +
+            "order by b.start")
+    List<Booking> findBookingsByItemId(@Param("items") List<Item> items,
+                                       @Param("ownerId") long ownerId, @Param("status") Status status);
+
+    List<Booking> findBookingsByItemIn(List<Item> items);
 }
