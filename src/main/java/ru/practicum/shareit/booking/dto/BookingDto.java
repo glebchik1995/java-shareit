@@ -1,31 +1,41 @@
 package ru.practicum.shareit.booking.dto;
 
 import lombok.Data;
-import org.springframework.lang.NonNull;
-import ru.practicum.shareit.booking.model.BookingStatus;
-import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.user.model.User;
+import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+import ru.practicum.shareit.booking.model.Status;
+import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.validation.CreateObject;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+import static ru.practicum.shareit.util.Constant.TIME_PATTERN;
+
 @Data
+@NoArgsConstructor
 public class BookingDto {
 
-    @NonNull
     private Long id;
 
-    @NonNull
+    @NotNull(groups = {CreateObject.class})
+    private Long itemId;
+
+    private UserDto booker;
+
+    private ItemDto item;
+
+    @Future(message = "Время начала не может быть в прошлом")
+    @DateTimeFormat(pattern = TIME_PATTERN)
+    @NotNull
     private LocalDateTime start;
 
-    @NonNull
+    @Future(message = "Время окончания не может быть в прошлом")
+    @DateTimeFormat(pattern = TIME_PATTERN)
+    @NotNull
     private LocalDateTime end;
 
-    @NonNull
-    private BookingStatus status;
-
-    @NonNull
-    private Item item;
-
-    @NonNull
-    private User booker;
+    private Status status;
 }

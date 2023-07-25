@@ -1,16 +1,42 @@
 package ru.practicum.shareit.item.model;
 
-import lombok.Data;
-import ru.practicum.shareit.request.model.ItemRequest;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.user.model.User;
 
-@Data
-public class Item {
-    private Long id;
-    private String name;
-    private String description;
-    private Boolean available;
-    private User owner;
-    private ItemRequest itemRequest;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
+
+@Entity
+@Table(name = "items", schema = "public")
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = {"name", "description", "available", "owner"})
+@ToString
+public class Item {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name", nullable = false, length = 50)
+    private String name;
+
+    @Column(name = "description", nullable = false, length = 250)
+    private String description;
+
+    @Column(name = "available")
+    private Boolean available;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id", nullable = false)
+    private User owner;
+
+    @Transient
+    private List<CommentDto> comments = new ArrayList<>();
 }
