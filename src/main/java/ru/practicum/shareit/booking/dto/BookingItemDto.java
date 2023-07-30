@@ -5,7 +5,6 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.user.dto.UserDto;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
@@ -18,24 +17,23 @@ import static ru.practicum.shareit.util.Constant.TIME_PATTERN;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode
-public class BookingDto {
+public class BookingItemDto {
 
-    Long id;
+    private Long id;
 
-    ItemDto item;
-
-    UserDto booker;
-
+    @NotNull
     @Future(message = "Время начала не может быть в прошлом")
     @DateTimeFormat(pattern = TIME_PATTERN)
-    @NotNull
-    LocalDateTime start;
+    private LocalDateTime start;
 
+    @NotNull
     @Future(message = "Время окончания не может быть в прошлом")
     @DateTimeFormat(pattern = TIME_PATTERN)
-    @NotNull
-    LocalDateTime end;
+    private LocalDateTime end;
 
-    BookingStatus status;
+    private ItemDto item;
+
+    private Long bookerId;
+
+    private BookingStatus status;
 }
