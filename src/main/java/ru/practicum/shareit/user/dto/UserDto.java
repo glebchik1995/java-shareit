@@ -9,7 +9,6 @@ import ru.practicum.shareit.validation.UpdateObject;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-
 @Data
 @Builder
 @AllArgsConstructor

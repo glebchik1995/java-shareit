@@ -1,6 +1,7 @@
 package ru.practicum.shareit.item.dto;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
@@ -13,11 +14,12 @@ import static ru.practicum.shareit.util.Constant.TIME_PATTERN;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CommentResponseDto {
-    private Long id;
+    Long id;
     @NotBlank
-    private String text;
-    private String authorName;
+    String text;
+    String authorName;
     @DateTimeFormat(pattern = TIME_PATTERN)
-    private LocalDateTime created;
+    LocalDateTime created;
 }

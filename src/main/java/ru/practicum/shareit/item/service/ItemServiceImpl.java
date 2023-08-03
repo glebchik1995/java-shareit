@@ -44,44 +44,6 @@ public class ItemServiceImpl implements ItemService {
     private final BookingRepository bookingRepository;
     private final RequestRepository requestRepository;
 
-    @Transactional(readOnly = true)
-    @Override
-    public List<ItemResponseDto> findAllItemsByUser(Long userId, Integer from, Integer size) {
-        isExistUser(userId);
-        PageRequest page = PageRequest.of(from / size, size);
-        Page<Item> items = itemRepository.findAllByOwnerId(userId, page);
-        List<ItemResponseDto> list = new ArrayList<>();
-        for (Item it : items) {
-            list.add(getItemDtoWithBooking(it));
-        }
-        return list;
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public ItemResponseDto findItemById(Long userId, Long itemId) {
-        isExistUser(userId);
-        Item item = isExistItem(itemId);
-        ItemResponseDto itemDto = getItemDtoWithBooking(item);
-        if (!Objects.equals(item.getOwner().getId(), userId)) {
-            itemDto.setLastBooking(null);
-            itemDto.setNextBooking(null);
-        }
-        return itemDto;
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public List<ItemDto> searchByText(String text, Integer from, Integer size) {
-        PageRequest page = PageRequest.of(from / size, size);
-        if (!StringUtils.hasLength(text)) {
-            return Collections.emptyList();
-        }
-        return itemRepository.findByNameOrDescriptionContainingIgnoreCaseAndAvailableTrue(text, text, page).stream()
-                .map(ItemMapper::toItemDto)
-                .collect(Collectors.toList());
-    }
-
     @Override
     public ItemDto addItem(Long userId, ItemDto itemDto) {
         User user = isExistUser(userId);
@@ -101,6 +63,44 @@ public class ItemServiceImpl implements ItemService {
         Optional.ofNullable(itemDto.getAvailable()).ifPresent(item::setAvailable);
         itemRepository.save(item);
         return ItemMapper.toItemDto(item);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public ItemResponseDto findItemById(Long userId, Long itemId) {
+        isExistUser(userId);
+        Item item = isExistItem(itemId);
+        ItemResponseDto itemDto = getItemDtoWithBooking(item);
+        if (!Objects.equals(item.getOwner().getId(), userId)) {
+            itemDto.setLastBooking(null);
+            itemDto.setNextBooking(null);
+        }
+        return itemDto;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<ItemResponseDto> findAllItemsByUser(Long userId, Integer from, Integer size) {
+        isExistUser(userId);
+        PageRequest page = PageRequest.of(from / size, size);
+        Page<Item> items = itemRepository.findAllByOwnerId(userId, page);
+        List<ItemResponseDto> list = new ArrayList<>();
+        for (Item it : items) {
+            list.add(getItemDtoWithBooking(it));
+        }
+        return list;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<ItemDto> searchByText(String text, Integer from, Integer size) {
+        PageRequest page = PageRequest.of(from / size, size);
+        if (!StringUtils.hasLength(text)) {
+            return Collections.emptyList();
+        }
+        return itemRepository.findByNameOrDescriptionContainingIgnoreCaseAndAvailableTrue(text, text, page).stream()
+                .map(ItemMapper::toItemDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -127,7 +127,6 @@ public class ItemServiceImpl implements ItemService {
         BookingItemDto last = bookings.stream()
                 .sorted(orderByStartDateDesc)
                 .filter(b -> b.getStart().isBefore(now))
-                .reduce((first, second) -> second).stream()
                 .findFirst()
                 .orElse(null);
         BookingItemDto next = bookings.stream()

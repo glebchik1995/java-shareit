@@ -5,7 +5,6 @@ import lombok.experimental.FieldDefaults;
 import ru.practicum.shareit.validation.CreateObject;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

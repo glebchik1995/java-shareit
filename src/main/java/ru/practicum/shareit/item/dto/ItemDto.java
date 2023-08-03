@@ -10,6 +10,7 @@ import javax.validation.constraints.*;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode
 public class ItemDto {

@@ -13,7 +13,6 @@ import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.validation.CreateObject;
 import ru.practicum.shareit.validation.UpdateObject;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.Collections;
@@ -40,7 +39,7 @@ public class ItemController {
     @PostMapping("/{itemId}/comment")
     public CommentResponseDto addComment(@RequestHeader(USER_ID_HEADER) Long userId,
                                          @PathVariable Long itemId,
-                                         @Valid @RequestBody CommentDto commentDto) {
+                                         @Validated({CreateObject.class}) @RequestBody CommentDto commentDto) {
         log.info("Получен POST-запрос: /items/itemId/comment на написание пользователем {} комментария:{}",
                 userId, commentDto);
         return itemService.addComment(userId, itemId, commentDto);

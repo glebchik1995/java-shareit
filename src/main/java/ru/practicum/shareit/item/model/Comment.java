@@ -9,10 +9,11 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 import static ru.practicum.shareit.util.Constant.TIME_PATTERN;
+
 @Data
 @Builder
 @Entity
-@Table(name = "comments",  schema = "public")
+@Table(name = "comments", schema = "public")
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)

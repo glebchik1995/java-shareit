@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 @UtilityClass
 public class ItemRequestMapper {
-    public static ItemRequest toItemRequestModel(ItemRequestShortDto requestDto, User user, LocalDateTime now) {
+    public static ItemRequest toItemRequestModel(ItemRequestShortDto itemRequestShortDto, User user, LocalDateTime now) {
         return ItemRequest.builder()
-                .description(requestDto.getDescription())
+                .description(itemRequestShortDto.getDescription())
                 .requester(user)
                 .created(now)
                 .build();

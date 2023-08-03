@@ -22,6 +22,7 @@ import static ru.practicum.shareit.util.Constant.TIME_PATTERN;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode
 public class ItemRequestDto {
+
     Long id;
 
     @NotBlank(groups = {CreateObject.class})
@@ -31,5 +32,6 @@ public class ItemRequestDto {
     @DateTimeFormat(pattern = TIME_PATTERN)
     @NotNull
     LocalDateTime created;
+
     List<ItemDto> items = new ArrayList<>();
 }
