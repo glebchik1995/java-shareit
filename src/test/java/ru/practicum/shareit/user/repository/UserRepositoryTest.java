@@ -11,7 +11,7 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
-    void findByEmailTest(){
+    void findByEmailTest() {
 
     }
 }

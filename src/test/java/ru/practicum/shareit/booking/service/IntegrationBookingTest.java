@@ -35,6 +35,7 @@ class IntegrationBookingTest {
     private ItemDto item;
 
     private BookingDtoShort bookingShort;
+
     @BeforeEach
     void setUp() {
 

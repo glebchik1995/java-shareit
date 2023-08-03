@@ -10,6 +10,7 @@ import ru.practicum.shareit.item.dto.ItemResponseDto;
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 @JsonTest
 public class ItemResponseDtoTest {
     @Autowired
