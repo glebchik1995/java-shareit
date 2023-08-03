@@ -75,13 +75,12 @@ class BookingControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-
     }
 
     @Test
     void shouldFindBookingByIdTest() throws Exception {
-        when(bookingService.findBookingByUser(anyLong(), any())).
-                thenReturn(bookingDto);
+        when(bookingService.findBookingByUser(anyLong(), any()))
+                .thenReturn(bookingDto);
 
         mvc.perform((get("/bookings/1")
                         .content(mapper.writeValueAsString(bookingDto))

@@ -8,6 +8,7 @@ import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
+
 @UtilityClass
 public class BookingMapper {
     public static Booking toBooking(BookingDtoShort bookingDtoShort, User user, Item item) {
