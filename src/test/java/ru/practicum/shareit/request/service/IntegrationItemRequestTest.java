@@ -1,9 +1,11 @@
 package ru.practicum.shareit.request.service;
 
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exceptions.DataNotFoundException;
 import ru.practicum.shareit.item.service.ItemServiceImpl;
@@ -15,18 +17,17 @@ import ru.practicum.shareit.user.service.UserServiceImpl;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
 @Transactional
+@SpringBootTest
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class IntegrationItemRequestTest {
-    @Autowired
-    private UserServiceImpl userService;
 
-    @Autowired
-    private RequestService requestService;
-    @Autowired
-    private ItemServiceImpl itemService;
+    private final UserServiceImpl userService;
+    private final RequestService requestService;
+    private final ItemServiceImpl itemService;
 
-    private final User user = new User(null, "masha@yandex.ru", "Маша");
+    private final User user = new User(null, "nane", "email@email.ru");
     private final ItemRequestShortDto request = new ItemRequestShortDto("description");
 
 

@@ -78,8 +78,8 @@ public class IntegrationItemTest {
 
     @Test
     void shouldUpdateItem() {
-        userService.addUser(userDto);
-        itemService.addItem(1L, itemDto);
+        UserDto owner = userService.addUser(userDto);
+        itemService.addItem(owner.getId(), itemDto);
 
         ItemDto updateItemDto = ItemDto.builder()
                 .name("newName")
