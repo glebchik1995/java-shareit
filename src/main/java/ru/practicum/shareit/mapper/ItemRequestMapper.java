@@ -9,6 +9,7 @@ import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 @UtilityClass
 public class ItemRequestMapper {
     public static ItemRequest toItemRequestModel(ItemRequestShortDto itemRequestShortDto, User user, LocalDateTime now) {
