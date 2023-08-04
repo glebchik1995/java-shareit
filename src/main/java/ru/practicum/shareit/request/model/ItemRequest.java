@@ -26,7 +26,7 @@ public class ItemRequest {
     String description;
 
     @ManyToOne
-    @JoinColumn(name = "request_id")
+    @JoinColumn(name = "requester_id")
     User requester;
 
     @Column(name = "created", nullable = false)

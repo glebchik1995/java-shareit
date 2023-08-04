@@ -21,9 +21,9 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     Long id;
-    @Column(nullable = false, length = 100)
+    @Column(name = "name", nullable = false, length = 100)
     String name;
-    @Column(nullable = false, length = 500)
+    @Column(name = "description", nullable = false, length = 500)
     String description;
     @Column(name = "is_available", nullable = false)
     Boolean available;

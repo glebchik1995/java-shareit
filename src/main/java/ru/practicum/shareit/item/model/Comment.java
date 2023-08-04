@@ -32,6 +32,7 @@ public class Comment {
     @JoinColumn(name = "author_id", nullable = false)
     User author;
     @DateTimeFormat(pattern = TIME_PATTERN)
+    @Column(name = "created")
     LocalDateTime created;
 
 }
