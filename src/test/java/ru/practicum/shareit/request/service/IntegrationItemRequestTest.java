@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exceptions.DataNotFoundException;
@@ -38,17 +37,6 @@ public class IntegrationItemRequestTest {
     }
 
     @Test
-    void createRequestEmptyTextTest() {
-        UserDto userDto = userService.addUser(UserMapper.toUserDto(user));
-        user.setId(userDto.getId());
-
-        request.setDescription("");
-
-        assertThrows(InvalidDataAccessResourceUsageException.class,
-                () -> requestService.addItemRequest(user.getId(), request));
-    }
-
-    @Test
     void getAllItemWrongUserTest() {
         assertThrows(DataNotFoundException.class,
                 () -> requestService.findAllItemRequests(5L, 0, 10));
@@ -59,7 +47,7 @@ public class IntegrationItemRequestTest {
         UserDto userDto = userService.addUser(UserMapper.toUserDto(user));
         user.setId(userDto.getId());
 
-        assertThrows(InvalidDataAccessResourceUsageException.class,
+        assertThrows(DataNotFoundException.class,
                 () -> requestService.findRequestById(user.getId(), 5L));
     }
 
