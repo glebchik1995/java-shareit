@@ -26,10 +26,10 @@ public class ItemRequest {
     String description;
 
     @ManyToOne
-    @JoinColumn(name = "requestor", referencedColumnName = "id")
+    @JoinColumn(name = "request_id")
     User requester;
 
-    @Column(name = "created_time", nullable = false)
+    @Column(name = "created", nullable = false)
     LocalDateTime created = LocalDateTime.now();
 
 }
