@@ -7,13 +7,15 @@ import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
 
-@Data
 @Builder
 @Entity
+@Setter
+@Getter
 @Table(name = "items", schema = "public")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Item {
 
     @Id

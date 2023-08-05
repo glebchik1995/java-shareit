@@ -17,6 +17,7 @@ import static ru.practicum.shareit.util.Constant.TIME_PATTERN;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Comment {
 
     @Id

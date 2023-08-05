@@ -33,7 +33,6 @@ import static ru.practicum.shareit.booking.model.BookingStatus.WAITING;
 @Transactional
 @SpringBootTest
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class IntegrationBookingTest {
     private final ItemService itemService;
     private final UserService userService;
