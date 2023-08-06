@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exceptions.DataNotFoundException;
 import ru.practicum.shareit.item.dto.ItemDto;
@@ -53,6 +54,7 @@ public class IntegrationItemTest {
     }
 
     @Test
+    @DirtiesContext
     void shouldAddItemTest() {
         UserDto owner = userService.addUser(userDto);
 
@@ -64,6 +66,7 @@ public class IntegrationItemTest {
     }
 
     @Test
+    @DirtiesContext
     void shouldFindItemByIdTest() {
         UserDto savedUser = userService.addUser(userDto);
         ItemDto savedItem = itemService.addItem(savedUser.getId(), itemDto);
@@ -75,6 +78,7 @@ public class IntegrationItemTest {
     }
 
     @Test
+    @DirtiesContext
     void shouldUpdateItem() {
         UserDto owner = userService.addUser(userDto);
         itemService.addItem(owner.getId(), itemDto);
@@ -97,6 +101,7 @@ public class IntegrationItemTest {
     }
 
     @Test
+    @DirtiesContext
     void shouldFindAllByUserId() {
         UserDto owner = userService.addUser(userDto);
         itemService.addItem(owner.getId(), itemDto);

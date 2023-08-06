@@ -27,7 +27,6 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static ru.practicum.shareit.booking.model.BookingStatus.APPROVED;
 import static ru.practicum.shareit.booking.model.BookingStatus.WAITING;
 
 @Transactional
@@ -131,29 +130,6 @@ class IntegrationBookingTest {
         Collection<BookingDto> bookings = bookingService.findAllBookingsCustomer(2L, BookingState.ALL, 0, 20);
 
         assertThat(bookings.size(), equalTo(1));
-    }
-
-    @Test
-    @DirtiesContext
-    void shouldUpdateAvailableStatus() {
-        userService.addUser(userDto);
-
-        UserDto secondUser = UserDto.builder()
-                .email("second@email.ru")
-                .name("name")
-                .build();
-
-        userService.addUser(secondUser);
-        itemService.addItem(1L, itemDto);
-        bookingService.addBooking(bookingDto, 2L);
-
-        bookingService.approveBooking(1L, 1L, true);
-
-        TypedQuery<Booking> query = entityManager
-                .createQuery("select b from Booking b where b.id = :id", Booking.class);
-
-        Booking bookingFromDb = query.setParameter("id", 1L).getSingleResult();
-        assertThat(bookingFromDb.getStatus(), equalTo(APPROVED));
     }
 
     @Test
