@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exceptions.DataNotFoundException;
 import ru.practicum.shareit.item.service.ItemServiceImpl;
 import ru.practicum.shareit.mapper.UserMapper;
-import ru.practicum.shareit.request.dto.ItemRequestShortDto;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.UserServiceImpl;
@@ -25,8 +24,6 @@ public class IntegrationItemRequestTest {
     private final ItemServiceImpl itemService;
 
     private final User user = new User(null, "nane", "email@email.ru");
-    private final ItemRequestShortDto request = new ItemRequestShortDto("description");
-
 
     @Test
     void getWrongUserRequestsTest() {

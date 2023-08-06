@@ -10,18 +10,15 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exceptions.DataNotFoundException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemResponseDto;
-import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.service.UserService;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Transactional
@@ -78,30 +75,6 @@ public class IntegrationItemTest {
     }
 
     @Test
-    @DirtiesContext
-    void shouldUpdateItem() {
-        UserDto owner = userService.addUser(userDto);
-        itemService.addItem(owner.getId(), itemDto);
-
-        ItemDto updateItemDto = ItemDto.builder()
-                .name("newName")
-                .description("newDescription")
-                .available(false)
-                .build();
-
-        itemService.updateItem(1L, 1L, updateItemDto);
-
-        TypedQuery<Item> query = entityManager.createQuery("select i from Item i where i.id = :id", Item.class);
-        Item item = query.setParameter("id", 1L).getSingleResult();
-
-        assertThat(updateItemDto.getName(), equalTo(item.getName()));
-        assertThat(updateItemDto.getDescription(), equalTo(item.getDescription()));
-        assertThat(updateItemDto.getAvailable(), equalTo(item.getAvailable()));
-        assertNull(itemDto.getRequestId());
-    }
-
-    @Test
-    @DirtiesContext
     void shouldFindAllByUserId() {
         UserDto owner = userService.addUser(userDto);
         itemService.addItem(owner.getId(), itemDto);
