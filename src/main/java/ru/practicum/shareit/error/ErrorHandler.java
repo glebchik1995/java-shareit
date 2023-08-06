@@ -11,7 +11,6 @@ import ru.practicum.shareit.exceptions.*;
 
 import javax.validation.ValidationException;
 
-
 @RestControllerAdvice
 @Slf4j
 public class ErrorHandler {
@@ -24,7 +23,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleFilmNotFoundException(final DataNotFoundException e) {
+    public ErrorResponse handleNotFoundException(final DataNotFoundException e) {
         log.debug("ResponseStatus: NOT_FOUND. Status code: 404 {}", e.getMessage());
         return new ErrorResponse(e.getMessage(), "Object is not found!");
     }
@@ -75,7 +74,7 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handeNoSuchStateException(final NoSuchStateException e) {
         log.error(e.getMessage());
-        return new ErrorResponse("Unknown state: UNSUPPORTED_STATUS", e.getMessage());
+        return new ErrorResponse(e.getMessage(), "Unknown state: UNSUPPORTED_STATUS");
     }
 
 }

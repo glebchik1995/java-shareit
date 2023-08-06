@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exceptions.DataAlreadyExistException;
 import ru.practicum.shareit.exceptions.DataNotFoundException;
-import ru.practicum.shareit.mapper.ModelMapperUtil;
+import ru.practicum.shareit.mapper.UserMapper;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
@@ -19,13 +19,12 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final ModelMapperUtil mapper;
 
     @Override
     public UserDto addUser(UserDto userDto) {
-        User user = mapper.map(userDto, User.class);
-        return mapper.map(userRepository.save(user), UserDto.class);
-
+        User user = UserMapper.toUserModel(userDto);
+        User userFromRepository = userRepository.save(user);
+        return UserMapper.toUserDto(userFromRepository);
     }
 
     @Override
@@ -33,24 +32,22 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> findAllUsers() {
         return userRepository.findAll()
                 .stream()
-                .map(user -> mapper.map(user, UserDto.class))
+                .map(UserMapper::toUserDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public UserDto findUserById(Long id) {
-        return mapper.map(userRepository.findById(id).orElseThrow(() ->
-                new DataNotFoundException(String.format("Пользователь с id = %d  +  не найден!", id))), UserDto.class);
+    public UserDto findUserById(Long userId) {
+        return UserMapper.toUserDto(isExistUser(userId));
     }
 
     @Override
-    public UserDto updateUserById(Long id, UserDto userDto) {
+    public UserDto updateUserById(Long userId, UserDto userDto) {
         if (userDto.getId() == null) {
-            userDto.setId(id);
+            userDto.setId(userId);
         }
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new DataNotFoundException(String.format("Пользователь с id = %s не найден", id)));
+        User user = isExistUser(userId);
         if (userDto.getName() != null) {
             user.setName(userDto.getName());
         }
@@ -66,14 +63,17 @@ public class UserServiceImpl implements UserService {
             }
 
         }
-        return mapper.map(userRepository.save(user), UserDto.class);
+        return UserMapper.toUserDto(userRepository.save(user));
     }
 
     @Override
-    public void deleteUserById(Long id) {
-        userRepository.findById(id).orElseThrow(
-                () -> new DataNotFoundException(String.format("Пользователь с id = %s не найден", id)));
-        userRepository.deleteById(id);
+    public void deleteUserById(Long userId) {
+        isExistUser(userId);
+        userRepository.deleteById(userId);
+    }
 
+    private User isExistUser(Long userId) {
+        return userRepository.findById(userId).orElseThrow(
+                () -> new DataNotFoundException(String.format("Пользователь с ID = %s не найден", userId)));
     }
 }
