@@ -1,42 +1,38 @@
 package ru.practicum.shareit.item.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import ru.practicum.shareit.item.dto.CommentDto;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
-
+@Builder
 @Entity
-@Table(name = "items", schema = "public")
-@Getter
 @Setter
-@EqualsAndHashCode(exclude = {"name", "description", "available", "owner"})
-@ToString
+@Getter
+@Table(name = "items", schema = "public")
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Item {
 
     @Id
+    @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "name", nullable = false, length = 50)
-    private String name;
-
-    @Column(name = "description", nullable = false, length = 250)
-    private String description;
-
-    @Column(name = "available")
-    private Boolean available;
-
-    @ManyToOne
+    @Column(name = "id")
+    Long id;
+    @Column(name = "name", nullable = false, length = 100)
+    String name;
+    @Column(name = "description", nullable = false, length = 500)
+    String description;
+    @Column(name = "is_available", nullable = false)
+    Boolean available;
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", nullable = false)
-    private User owner;
-
-    @Transient
-    private List<CommentDto> comments = new ArrayList<>();
+    User owner;
+    @ManyToOne
+    @JoinColumn(name = "request_id")
+    private ItemRequest itemRequest;
 }

@@ -16,6 +16,7 @@ import java.util.List;
 @RequestMapping(path = "/users")
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class UserController {
 
     private final UserService service;
@@ -34,16 +35,13 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto addUser(@Validated(CreateObject.class)
-                           @RequestBody UserDto userDto) {
+    public UserDto addUser(@Validated(CreateObject.class) @RequestBody UserDto userDto) {
         log.info("Получен POST-запрос: /users на создание пользователя: {}", userDto);
         return service.addUser(userDto);
     }
 
     @PatchMapping(value = "/{id}")
-    public UserDto updateUser(@PathVariable Long id,
-                              @Validated(UpdateObject.class)
-                              @RequestBody UserDto userDto) {
+    public UserDto updateUser(@PathVariable Long id, @Validated(UpdateObject.class) @RequestBody UserDto userDto) {
         log.info("Получен PATCH-запрос: /users/{id} на обновление пользователя с ID = {}", id);
         return service.updateUserById(id, userDto);
     }

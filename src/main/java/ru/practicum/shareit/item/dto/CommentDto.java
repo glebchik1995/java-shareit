@@ -1,25 +1,18 @@
 package ru.practicum.shareit.item.dto;
 
-import lombok.Builder;
-import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import ru.practicum.shareit.validation.CreateObject;
 
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
-
-import static ru.practicum.shareit.util.Constant.TIME_PATTERN;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CommentDto {
 
-    private Long id;
-
-    @NotBlank
-    private String text;
-
-    private String authorName;
-
-    @DateTimeFormat(pattern = TIME_PATTERN)
-    private LocalDateTime created;
+    @NotBlank(groups = {CreateObject.class}, message = "text should not be empty")
+    String text;
 }
