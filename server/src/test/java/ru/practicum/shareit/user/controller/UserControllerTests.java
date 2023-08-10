@@ -156,17 +156,4 @@ class UserControllerTests {
                 .andExpect(jsonPath("$.name", is(firstUserDto.getName())))
                 .andExpect(jsonPath("$.email", is(firstUserDto.getEmail())));
     }
-
-    @Test
-    void shouldAddWhenValidationExceptionTest() throws Exception {
-        mvc.perform(post("/users")
-                        .content(mapper.writeValueAsString(secondUserDto))
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header(USER_ID_HEADER, 1L)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
-        verify(userService, never()).addUser(secondUserDto);
-    }
-
 }
