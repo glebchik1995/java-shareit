@@ -7,8 +7,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.service.UserService;
-import ru.practicum.shareit.validation.CreateObject;
-import ru.practicum.shareit.validation.UpdateObject;
 
 import java.util.List;
 
@@ -35,13 +33,13 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto addUser(@Validated(CreateObject.class) @RequestBody UserDto userDto) {
+    public UserDto addUser(@RequestBody UserDto userDto) {
         log.info("Получен POST-запрос: /users на создание пользователя: {}", userDto);
         return service.addUser(userDto);
     }
 
     @PatchMapping(value = "/{id}")
-    public UserDto updateUser(@PathVariable Long id, @Validated(UpdateObject.class) @RequestBody UserDto userDto) {
+    public UserDto updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
         log.info("Получен PATCH-запрос: /users/{id} на обновление пользователя с ID = {}", id);
         return service.updateUserById(id, userDto);
     }

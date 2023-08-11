@@ -5,7 +5,6 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.practicum.shareit.validation.CreateObject;
 
-import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
@@ -21,12 +20,11 @@ import static ru.practicum.shareit.util.Constant.TIME_PATTERN;
 public class BookingDtoShort {
 
     @NotNull
-    @FutureOrPresent(message = "Время начала не может быть в прошлом")
+    @FutureOrPresent
     @DateTimeFormat(pattern = TIME_PATTERN)
     LocalDateTime start;
 
     @NotNull
-    @Future(message = "Время окончания не может быть в прошлом")
     @DateTimeFormat(pattern = TIME_PATTERN)
     LocalDateTime end;
 

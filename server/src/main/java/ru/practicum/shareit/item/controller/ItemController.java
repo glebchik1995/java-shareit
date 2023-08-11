@@ -3,15 +3,12 @@ package ru.practicum.shareit.item.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.CommentResponseDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemResponseDto;
 import ru.practicum.shareit.item.service.ItemService;
-import ru.practicum.shareit.validation.CreateObject;
-import ru.practicum.shareit.validation.UpdateObject;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -24,14 +21,13 @@ import static ru.practicum.shareit.util.Constant.*;
 @RequestMapping("/items")
 @RequiredArgsConstructor
 @Slf4j
-@Validated
 public class ItemController {
 
     private final ItemService itemService;
 
     @PostMapping
     public ItemDto addItem(@RequestHeader(USER_ID_HEADER) Long userId,
-                           @Validated({CreateObject.class}) @RequestBody ItemDto itemDto) {
+                           @RequestBody ItemDto itemDto) {
         log.info("Получен POST-запрос: /items на добавления item:{}", itemDto.getName());
         return itemService.addItem(userId, itemDto);
     }
@@ -39,7 +35,7 @@ public class ItemController {
     @PostMapping("/{itemId}/comment")
     public CommentResponseDto addComment(@RequestHeader(USER_ID_HEADER) Long userId,
                                          @PathVariable Long itemId,
-                                         @Validated({CreateObject.class}) @RequestBody CommentDto commentDto) {
+                                         @RequestBody CommentDto commentDto) {
         log.info("Получен POST-запрос: /items/itemId/comment на написание пользователем {} комментария:{}",
                 userId, commentDto);
         return itemService.addComment(userId, itemId, commentDto);
@@ -74,7 +70,6 @@ public class ItemController {
     @PatchMapping("/{itemId}")
     public ItemDto updateItem(@RequestHeader(USER_ID_HEADER) Long userId,
                               @PathVariable Long itemId,
-                              @Validated(UpdateObject.class)
                               @RequestBody ItemDto itemDto) {
         log.info("Получен PATCH-запрос:/items/itemId на обновление вещи по id = {}", itemId);
         return itemService.updateItem(userId, itemId, itemDto);
